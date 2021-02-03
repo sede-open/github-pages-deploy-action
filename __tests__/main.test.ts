@@ -49,7 +49,7 @@ describe('main', () => {
       debug: true
     })
     await run(action)
-    expect(execute).toBeCalledTimes(10)
+    expect(execute).toBeCalledTimes(12)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -60,6 +60,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: '123',
+      sshKey: true,
       pusher: {
         name: 'asd',
         email: 'as@cat'
@@ -67,7 +68,7 @@ describe('main', () => {
       isTest: TestFlag.HAS_CHANGED_FILES
     })
     await run(action)
-    expect(execute).toBeCalledTimes(13)
+    expect(execute).toBeCalledTimes(15)
     expect(rmRF).toBeCalledTimes(1)
     expect(exportVariable).toBeCalledTimes(1)
   })
@@ -77,7 +78,7 @@ describe('main', () => {
       folder: 'assets',
       branch: 'branch',
       token: null,
-      ssh: null,
+      sshKey: null,
       pusher: {
         name: 'asd',
         email: 'as@cat'

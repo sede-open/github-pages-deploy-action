@@ -26,7 +26,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     try {
       await execute(`git remote rm origin`, action.workspace, action.silent)
 
-      if (action.isTest) {
+      if (action.isTest === TestFlag.UNABLE_TO_REMOVE_ORIGIN) {
         throw new Error()
       }
     } catch {
