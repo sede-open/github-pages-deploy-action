@@ -64,7 +64,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     const commitMessage = !isNullOrUndefined(action.commitMessage)
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
-          process.env.GITHUB_SHA ? ` from @ ${process.env.GITHUB_SHA}` : ''
+          process.env.GITHUB_SHA
+            ? ` from @ ${action.repositoryName ? action.repositoryName : ''}${
+                process.env.GITHUB_SHA
+              }`
+            : ''
         } 🚀`
 
     // Checks to see if the remote exists prior to deploying.
@@ -127,7 +131,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // changed.
     const checkGitStatus =
       branchExists && action.singleCommit
-        ? `git diff origin/${action.branch}`
+        ? `git diff origin/${action.branch} --quiet`
         : `git status --porcelain`
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
