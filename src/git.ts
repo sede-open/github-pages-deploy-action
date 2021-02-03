@@ -23,9 +23,9 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
 
-    await execute(`git remote rm origin`, action.workspace, action.silent)
-
     try {
+      await execute(`git remote rm origin`, action.workspace, action.silent)
+
       if (action.isTest) {
         throw new Error()
       }
@@ -65,9 +65,9 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       ? (action.commitMessage as string)
       : `Deploying to ${action.branch}${
           process.env.GITHUB_SHA
-            ? ` from @ ${action.repositoryName ? action.repositoryName : ''}${
-                process.env.GITHUB_SHA
-              }`
+            ? ` from @ ${
+                action.repositoryName ? `${action.repositoryName}@` : ''
+              }${process.env.GITHUB_SHA}`
             : ''
         } 🚀`
 
@@ -138,7 +138,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       (await execute(
         checkGitStatus,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
-        true
+        true // This output is always silenced due to the large output it creates.
       ))
 
     if (!hasFilesToCommit) {
