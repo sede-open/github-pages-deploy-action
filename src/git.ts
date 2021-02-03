@@ -138,7 +138,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       (await execute(
         checkGitStatus,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
-        action.silent
+        true
       ))
 
     if (!hasFilesToCommit) {
