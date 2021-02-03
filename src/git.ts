@@ -131,7 +131,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // changed.
     const checkGitStatus =
       branchExists && action.singleCommit
-        ? `git diff origin/${action.branch} --quiet`
+        ? `git diff origin/${action.branch}`
         : `git status --porcelain`
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||
