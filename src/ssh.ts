@@ -26,7 +26,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostDss)
 
       // Initializes SSH agent.
-      execFileSync('ssh-agent')
+      const agentOutput = execFileSync('ssh-agent')
 
       const lines = agentOutput.toString().split('\n')
       for (const line in lines) {
