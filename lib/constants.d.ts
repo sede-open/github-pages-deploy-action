@@ -3,7 +3,7 @@ export declare enum TestFlag {
     HAS_CHANGED_FILES = 2,
     HAS_REMOTE_BRANCH = 4,
     UNABLE_TO_REMOVE_ORIGIN = 8,
-    UNABLE_TO_UNSET_CONFIG = 16
+    UNABLE_TO_UNSET_GIT_CONFIG = 16
 }
 export interface ActionInterface {
     /** The branch that the action should deploy to. */
