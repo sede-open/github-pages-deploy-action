@@ -26,17 +26,17 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostDss)
 
       // Initializes SSH agent.
-      const agentOutput = execFileSync('ssh-agent')
+      const agentOutput = execFileSync('ssh-agent').toString().split('\n')
 
-      const lines = agentOutput.toString().split('\n')
-      for (const line in lines) {
-        const matches = /^(SSH_AUTH_SOCK|SSH_AGENT_PID)=(.*); export \1/.exec(
-          lines[line]
+      agentOutput.map(line => {
+        const exportableVariables = /^(SSH_AUTH_SOCK|SSH_AGENT_PID)=(.*); export \1/.exec(
+          agentOutput[line]
         )
-        if (matches && matches.length > 0) {
-          exportVariable(matches[1], matches[2])
+
+        if (exportableVariables && exportableVariables.length) {
+          exportVariable(exportableVariables[1], exportableVariables[2])
         }
-      }
+      })
 
       // Adds the SSH key to the agent.
       action.sshKey.split(/(?=-----BEGIN)/).map(async line => {
