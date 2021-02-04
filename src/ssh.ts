@@ -4,7 +4,7 @@ import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {suppressSensitiveInformation} from './util'
-import {execFileSync} from 'child_process'
+import {execFileSync, execSync} from 'child_process'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
@@ -43,7 +43,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
         await execute(`ssh-add - ${line.trim()}\n`, sshDirectory, action.silent)
       })
 
-      execFileSync('ssh-agent -l')
+      execSync('ssh-agent -l')
     } else {
       info(`Skipping SSH client configuration… ⌚`)
     }
