@@ -13,7 +13,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info('Configuring git…')
   
     if (process.env.CI) {
-      await execute(`git config --local --unset-all remote.origin.url`, action.workspace, action.silent)
+      await execute(`git config --local --unset-all http.https://github.com/.extraheader`, action.workspace, action.silent)
     }
 
     await execute(
