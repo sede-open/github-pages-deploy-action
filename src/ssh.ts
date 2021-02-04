@@ -1,10 +1,10 @@
-import {info} from '@actions/core'
+import {info, exportVariable} from '@actions/core'
 import {mkdirP} from '@actions/io'
 import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {suppressSensitiveInformation} from './util'
-import {execFileSync} from 'child_process';
+import {execFileSync} from 'child_process'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
@@ -25,8 +25,20 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostRsa)
       appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostDss)
 
-      // Initializes SSH agent.
-      execFileSync('ssh-agent');
+      // Initializes SSH agent and exports variables.
+      const agent = execFileSync('ssh-agent')
+
+      agent
+        .toString()
+        .split('\n')
+        .map((line: string) => {
+          const agentVariables = /^(SSH_AGENT_PID|SSH_AUTH_SOCK)=(.*); export \1/.exec(
+            agent[line]
+          )
+          if (agentVariables && agentVariables.length) {
+            exportVariable(agentVariables[1], agentVariables[2])
+          }
+        })
 
       // Adds the SSH key to the agent.
       action.sshKey.split(/(?=-----BEGIN)/).map(async line => {
