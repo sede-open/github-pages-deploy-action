@@ -29,7 +29,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
           Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
         */
         await execute(
-          `git config credential.https://github.com/.helper username=x-access-token; password=${action.token};`,
+          `git config credential.helper store`,
           action.workspace,
           action.silent
         )
