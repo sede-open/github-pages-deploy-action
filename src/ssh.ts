@@ -43,7 +43,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
         await execute(`ssh-add - ${line.trim()}\n`, sshDirectory, action.silent)
       })
 
-      execSync('ssh-agent -l')
+      execSync('ssh-add -l')
     } else {
       info(`Skipping SSH client configuration… ⌚`)
     }
