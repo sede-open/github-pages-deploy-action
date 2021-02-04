@@ -1,8 +1,8 @@
-import {info, exportVariable} from '@actions/core'
+import {exportVariable, info} from '@actions/core'
 import {mkdirP} from '@actions/io'
+import {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
-import {execute} from './execute'
 import {suppressSensitiveInformation} from './util'
 import {execFileSync, execSync} from 'child_process'
 
@@ -30,7 +30,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
 
       agentOutput.map(line => {
         const exportableVariables = /^(SSH_AUTH_SOCK|SSH_AGENT_PID)=(.*); export \1/.exec(
-          agentOutput[line]
+          line
         )
 
         if (exportableVariables && exportableVariables.length) {
