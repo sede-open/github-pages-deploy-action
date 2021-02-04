@@ -12,6 +12,9 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
   
+    if (process.env.CI) {
+      await execute(`git config --local --unset-all`, action.workspace, action.silent)
+    }
 
     await execute(
       `git config user.name "${action.name}"`,
@@ -40,10 +43,6 @@ export async function init(action: ActionInterface): Promise<void | Error> {
       action.silent
     )
     
-    if (process.env.CI) {
-      await execute(`git config --local --unset credential.helper`, action.workspace, action.silent)
-    }
-
     info('Git configured… 🔧')
   } catch (error) {
     throw new Error(
