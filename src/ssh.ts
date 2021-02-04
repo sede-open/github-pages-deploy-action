@@ -4,7 +4,7 @@ import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
 import {execute} from './execute'
 import {suppressSensitiveInformation} from './util'
-import child_process from 'child_process'
+import {execFileSync} from 'child_process'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
@@ -26,11 +26,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       appendFileSync(sshKnownHostsDirectory, sshGitHubKnownHostDss)
 
       // Initializes SSH agent.
-      const agentOutput = await execute(
-        `ssh-agent`,
-        sshDirectory,
-        action.silent
-      )
+      execFileSync('ssh-agent')
 
       const lines = agentOutput.toString().split('\n')
       for (const line in lines) {
@@ -47,7 +43,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
         await execute(`ssh-add - ${line.trim()}\n`, sshDirectory, action.silent)
       })
 
-      child_process.execFileSync('ssh-agent -l')
+      execFileSync('ssh-agent -l')
     } else {
       info(`Skipping SSH client configuration… ⌚`)
     }
