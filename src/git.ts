@@ -13,7 +13,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     info('Configuring git…')
     
     if (process.env.CI) {
-      await execute(`git config --global --unset credential.helper`, action.workspace, action.silent)
+      await execute(`git config --system --unset credential.helper`, action.workspace, action.silent)
     }
 
     await execute(
