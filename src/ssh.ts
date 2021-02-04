@@ -4,7 +4,6 @@ import {execFileSync, execSync} from 'child_process'
 import {appendFileSync} from 'fs'
 import {ActionInterface} from './constants'
 import {suppressSensitiveInformation} from './util'
-import {execFileSync, execSync} from 'child_process'
 
 export async function configureSSH(action: ActionInterface): Promise<void> {
   try {
