@@ -24,12 +24,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
     )
 
     try {
-      if (process.env.CI && !action.sshKey) {
+      if ((process.env.CI && !action.sshKey) || action.isTest) {
         /* Ensures that previously set Git configs do not interfere with the deployment.
           Only runs in the GitHub Actions CI environment if a user is not using an SSH key.
         */
         await execute(
-          `git config credential.helper store`,
+          `git config --local --unset-all http.https://github.com/.extraheader`,
           action.workspace,
           action.silent
         )
