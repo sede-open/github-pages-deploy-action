@@ -11,6 +11,10 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   try {
     info(`Deploying using ${action.tokenType}… 🔑`)
     info('Configuring git…')
+    
+    if (process.env.CI) {
+      await execute(`git config --global --unset credential.helper`, action.workspace, action.silent)
+    }
 
     await execute(
       `git config user.name "${action.name}"`,
