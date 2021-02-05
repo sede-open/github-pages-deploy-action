@@ -7,8 +7,10 @@ const {pusher, repository} = github.context.payload
 /* Flags to signal different scenarios to test cases */
 export enum TestFlag {
   NONE = 0,
-  HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit
-  HAS_REMOTE_BRANCH = 1 << 2 // Assume remote repository has existing commits
+  HAS_CHANGED_FILES = 1 << 1, // Assume changes to commit.
+  HAS_REMOTE_BRANCH = 1 << 2, // Assume remote repository has existing commits.
+  UNABLE_TO_REMOVE_ORIGIN = 1 << 3, // Assume we can't remove origin.
+  UNABLE_TO_UNSET_GIT_CONFIG = 1 << 4 // Assume we can't remove previously set git configs.
 }
 
 /* For more information please refer to the README: https://github.com/JamesIves/github-pages-deploy-action */
@@ -41,8 +43,8 @@ export interface ActionInterface {
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** Set to true if you're using an ssh client in your build step. */
-  ssh?: boolean | null
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean | null
   /** If you'd like to push the contents of the deployment folder into a specific directory on the deployment branch you can specify it here. */
   targetFolder?: string
   /** Deployment token. */
@@ -65,10 +67,11 @@ export interface NodeActionInterface {
   token?: string | null
   /** Determines if the action should run in silent mode or not. */
   silent: boolean
-  /** Set to true if you're using an ssh client in your build step. */
-  ssh?: boolean | null
+  /** Defines an SSH private key that can be used during deployment. This can also be set to true to use SSH deployment endpoints if you've already configured the SSH client outside of this package. */
+  sshKey?: string | boolean | null
   /** The folder where your deployment project lives. */
   workspace: string
+  /** Determines test scenarios the action is running in. */
   isTest: TestFlag
 }
 
@@ -113,9 +116,12 @@ export const action: ActionInterface = {
   silent: !isNullOrUndefined(getInput('silent'))
     ? getInput('silent').toLowerCase() === 'true'
     : false,
-  ssh: !isNullOrUndefined(getInput('ssh'))
-    ? getInput('ssh').toLowerCase() === 'true'
-    : false,
+  sshKey: isNullOrUndefined(getInput('ssh-key'))
+    ? false
+    : !isNullOrUndefined(getInput('ssh-key')) &&
+      getInput('ssh-key').toLowerCase() === 'true'
+    ? true
+    : getInput('ssh-key'),
   targetFolder: getInput('target-folder'),
   workspace: process.env.GITHUB_WORKSPACE || ''
 }
@@ -123,7 +129,7 @@ export const action: ActionInterface = {
 /** Types for the required action parameters. */
 export type RequiredActionParameters = Pick<
   ActionInterface,
-  'token' | 'ssh' | 'branch' | 'folder' | 'isTest'
+  'token' | 'sshKey' | 'branch' | 'folder' | 'isTest'
 >
 
 /** Status codes for the action. */
