@@ -10,8 +10,28 @@ on:
       - releases/v4
 
 jobs:
+  # Deploys cross repo with an access token.
+  integration-cross-repo-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          git-config-name: Montezuma
+          git-config-email: montezuma@jamesiv.es
+          repository-name: JamesIves/lab
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: integration
+          single-commit: true
+          clean: true
+          
   # Deploys using checkout@v1 with an ACCESS_TOKEN.
   integration-checkout-v1:
+    needs: integration-cross-repo-push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -112,26 +132,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: gh-pages
 
-  # Deploys cross repo with an access token.
-  integration-cross-repo-push:
-    needs: integration-container
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          repository-name: MontezumaIves/lab
-          token: ${{ secrets.CROSS_REPO_PUSH_TOKEN }}
-          branch: gh-pages
-          folder: integration
-          single-commit: true
-
   # Deploys using an SSH key.
   integration-ssh-third-party-client:
-    needs: integration-container
+    needs: integration-ssh
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -160,7 +163,7 @@ jobs:
 
   # Deploys using a custom env.
   integration-env:
-    needs: integration-ssh
+    needs: integration-ssh-third-party-client
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v1.4.4
@@ -188,7 +191,7 @@ jobs:
 
   # Deploys using the CLEAN option.
   integration-clean:
-    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-env]
+    needs: [integration-checkout-v1, integration-checkout-v2, integration-container, integration-ssh, integration-ssh-third-party-client, integration-env]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
