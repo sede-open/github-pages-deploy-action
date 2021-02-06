@@ -147,10 +147,11 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Special case is singleCommit with existing history, when
     // we're really interested if the diff against the upstream branch
     // changed.
-    const checkGitStatus =
-      branchExists && action.singleCommit
-        ? `git diff origin/${action.branch}`
-        : `git status --porcelain`
+    const checkGitStatus = action.repositoryName
+      ? `git diff ${action.branch}`
+      : branchExists && action.singleCommit
+      ? `git diff origin/${action.branch}`
+      : `git status --porcelain`
     info(`Checking if there are files to commit…`)
     const hasFilesToCommit =
       action.isTest & TestFlag.HAS_CHANGED_FILES ||

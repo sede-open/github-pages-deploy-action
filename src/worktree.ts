@@ -52,10 +52,10 @@ export async function generateWorktree(
         // There's existing data on the branch to check out
         checkout.commitish = `origin/${action.branch}`
       }
-      if (!branchExists || action.singleCommit) {
-        // Create a new history if we don't have the branch, or if we want to reset it
-        checkout.orphan = true
-      }
+    }
+    if (!branchExists || action.singleCommit) {
+      // Create a new history if we don't have the branch, or if we want to reset it
+      checkout.orphan = true
     }
     await execute(
       checkout.toString(),
