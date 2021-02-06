@@ -50,7 +50,7 @@ export async function generateWorktree(
       // There's existing data on the branch to check out
       checkout.commitish = `${
         action.repositoryName
-          ? `${action.repositoryPath} ${action.branch}`
+          ? `${action.repositoryPath}`
           : `origin/${action.branch}`
       }`
     }
