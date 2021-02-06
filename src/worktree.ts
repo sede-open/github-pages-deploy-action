@@ -47,16 +47,21 @@ export async function generateWorktree(
     )
     const checkout = new GitCheckout(action.branch)
 
-    if (!action.repositoryName) {
-      if (branchExists) {
-        // There's existing data on the branch to check out
-        checkout.commitish = `origin/${action.branch}`
-      }
+    if (branchExists) {
+      // There's existing data on the branch to check out
+      checkout.commitish = `origin/${action.branch}`
     }
+
     if (!branchExists || action.singleCommit) {
       // Create a new history if we don't have the branch, or if we want to reset it
       checkout.orphan = true
     }
+
+    if (action.repositoryName) {
+      console.log('---DEBUGGING---')
+      await execute(`git fetch`, action.workspace, action.silent);
+    }
+
     await execute(
       checkout.toString(),
       `${action.workspace}/${worktreedir}`,
