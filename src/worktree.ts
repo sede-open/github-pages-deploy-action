@@ -32,7 +32,9 @@ export async function generateWorktree(
 
     if (branchExists) {
       await execute(
-        `git fetch --no-recurse-submodules --depth=1 ${action.repositoryName ? action.repositoryPath : 'origin'} ${action.branch}`,
+        `git fetch --no-recurse-submodules --depth=1 ${
+          action.repositoryName ? action.repositoryPath : 'origin'
+        } ${action.branch}`,
         action.workspace,
         action.silent
       )
@@ -44,14 +46,18 @@ export async function generateWorktree(
       action.silent
     )
     const checkout = new GitCheckout(action.branch)
-    // if (branchExists) {
-    //   // There's existing data on the branch to check out
-    //   checkout.commitish = `origin/${action.branch}`
-    // }
-    // if (!branchExists || action.singleCommit) {
-    //   // Create a new history if we don't have the branch, or if we want to reset it
-    //   checkout.orphan = true
-    // }
+    if (branchExists) {
+      // There's existing data on the branch to check out
+      checkout.commitish = `${
+        action.repositoryName
+          ? `${action.repositoryPath} ${action.branch}`
+          : `origin/${action.branch}`
+      }`
+    }
+    if (!branchExists || action.singleCommit) {
+      // Create a new history if we don't have the branch, or if we want to reset it
+      checkout.orphan = true
+    }
     await execute(
       checkout.toString(),
       `${action.workspace}/${worktreedir}`,
