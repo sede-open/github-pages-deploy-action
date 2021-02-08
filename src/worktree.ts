@@ -31,6 +31,7 @@ export async function generateWorktree(
     info('Creating worktree…')
 
     if (branchExists) {
+      console.log('---DEBUG-POINT-1---')
       await execute(
         `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
@@ -56,6 +57,7 @@ export async function generateWorktree(
     }
 
     if (action.isCrossRepositoryDeployment) {
+      console.log('---DEBUG-POINT-2---')
       // Used when cross repo deploying to ensure that context is focused on the correct remote.
       await execute(`git fetch`, action.workspace, action.silent)
     }
