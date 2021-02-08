@@ -43,7 +43,6 @@ describe('configureSSH', () => {
 
   it('should skip client configuration if sshKey is set to true', async () => {
     Object.assign(action, {
-      isCrossRepositoryDeployment: false,
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -68,7 +67,6 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
-      isCrossRepositoryDeployment: false,
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -93,7 +91,6 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
-      isCrossRepositoryDeployment: false,
       silent: false,
       folder: 'assets',
       branch: 'branch',
@@ -118,7 +115,6 @@ describe('configureSSH', () => {
     })
 
     Object.assign(action, {
-      isCrossRepositoryDeployment: false,
       silent: false,
       folder: 'assets',
       branch: 'branch',

@@ -31,7 +31,6 @@ export async function generateWorktree(
     info('Creating worktree…')
 
     if (branchExists) {
-      console.log('---DEBUG-POINT-1---')
       await execute(
         `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
@@ -45,23 +44,14 @@ export async function generateWorktree(
       action.silent
     )
     const checkout = new GitCheckout(action.branch)
-
     if (branchExists) {
       // There's existing data on the branch to check out
       checkout.commitish = `origin/${action.branch}`
     }
-
     if (!branchExists || action.singleCommit) {
       // Create a new history if we don't have the branch, or if we want to reset it
       checkout.orphan = true
     }
-
-    if (action.isCrossRepositoryDeployment) {
-      // console.log('---DEBUG-POINT-2---')
-      // // Used when cross repo deploying to ensure that context is focused on the correct remote.
-      // await execute(`git fetch`, action.workspace, action.silent)
-    }
-
     await execute(
       checkout.toString(),
       `${action.workspace}/${worktreedir}`,
@@ -85,7 +75,6 @@ export async function generateWorktree(
       }
     }
   } catch (error) {
-    console.log(error)
     throw new Error(
       `There was an error creating the worktree: ${suppressSensitiveInformation(
         error.message,
