@@ -30,6 +30,8 @@ export interface ActionInterface {
     repositoryName?: string;
     /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
     repositoryPath?: string;
+    /** Determines if the action is performing a cross repository deployment or not. */
+    isCrossRepositoryDeployment?: boolean;
     /** Wipes the commit history from the deployment branch in favor of a single commit. */
     singleCommit?: boolean | null;
     /** Determines if the action should run in silent mode or not. */
@@ -63,6 +65,8 @@ export interface NodeActionInterface {
     workspace: string;
     /** Determines test scenarios the action is running in. */
     isTest: TestFlag;
+    /** Determines if the action is performing a cross repository deployment or not. */
+    isCrossRepositoryDeployment?: boolean;
 }
 export declare const action: ActionInterface;
 /** Types for the required action parameters. */
