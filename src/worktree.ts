@@ -32,9 +32,7 @@ export async function generateWorktree(
 
     if (branchExists) {
       await execute(
-        `git fetch --no-recurse-submodules --depth=1 ${
-          action.isCrossRepositoryDeployment ? action.repositoryPath : 'origin'
-        } ${action.branch}`,
+        `git fetch --no-recurse-submodules --depth=1 origin ${action.branch}`,
         action.workspace,
         action.silent
       )
