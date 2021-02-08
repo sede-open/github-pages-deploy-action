@@ -40,7 +40,7 @@ export interface ActionInterface {
   /** The fully qualified repositpory path, this gets auto generated if repositoryName is provided. */
   repositoryPath?: string
   /** Determines if the action is performing a cross repository deployment or not. */
-  isCrossRepositoryDeployment: boolean
+  isCrossRepositoryDeployment?: boolean
   /** Wipes the commit history from the deployment branch in favor of a single commit. */
   singleCommit?: boolean | null
   /** Determines if the action should run in silent mode or not. */
