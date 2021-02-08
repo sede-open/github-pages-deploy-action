@@ -57,9 +57,9 @@ export async function generateWorktree(
     }
 
     if (action.isCrossRepositoryDeployment) {
-      console.log('---DEBUG-POINT-2---')
-      // Used when cross repo deploying to ensure that context is focused on the correct remote.
-      await execute(`git fetch`, action.workspace, action.silent)
+      // console.log('---DEBUG-POINT-2---')
+      // // Used when cross repo deploying to ensure that context is focused on the correct remote.
+      // await execute(`git fetch`, action.workspace, action.silent)
     }
 
     await execute(
