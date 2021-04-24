@@ -1,6 +1,6 @@
 import {exportVariable, info, setFailed, setOutput} from '@actions/core'
 import {ActionInterface, NodeActionInterface, Status} from './constants'
-import {deploy, init} from './git'
+import {deploy, init, cleanup} from './git'
 import {configureSSH} from './ssh'
 import {
   checkParameters,
@@ -50,6 +50,8 @@ export default async function run(
 
     await init(settings)
     status = await deploy(settings)
+
+    await cleanup(settings)
   } catch (error) {
     status = Status.FAILED
     setFailed(error.message)

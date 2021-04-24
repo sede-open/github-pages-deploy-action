@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@actions/core@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.6.tgz#a78d49f41a4def18e88ce47c2cac615d5694bf09"
+"@actions/core@1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.7.tgz#594f8c45b213f0146e4be7eda8ae5cf4e198e5ab"
 
 "@actions/exec@1.0.4":
   version "1.0.4"
@@ -726,9 +726,9 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
 
-"@types/node@*", "@types/node@14.14.37", "@types/node@>= 8":
-  version "14.14.37"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.37.tgz#a3dd8da4eb84a996c36e331df98d82abd76b516e"
+"@types/node@*", "@types/node@14.14.41", "@types/node@>= 8":
+  version "14.14.41"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.41.tgz#d0b939d94c1d7bd53d04824af45f1139b8c45615"
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1531,9 +1531,9 @@ eslint-plugin-jest@24.3.5:
   dependencies:
     "@typescript-eslint/experimental-utils" "^4.0.1"
 
-eslint-plugin-prettier@3.3.1, eslint-plugin-prettier@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.3.1.tgz#7079cfa2497078905011e6f82e8dd8453d1371b7"
+eslint-plugin-prettier@3.4.0, eslint-plugin-prettier@^3.3.1:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-3.4.0.tgz#cdbad3bf1dbd2b177e9825737fe63b476a08f0c7"
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
@@ -3917,9 +3917,9 @@ tr46@^2.0.0:
   dependencies:
     punycode "^2.1.1"
 
-ts-jest@26.5.4:
-  version "26.5.4"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.4.tgz#207f4c114812a9c6d5746dd4d1cdf899eafc9686"
+ts-jest@26.5.5:
+  version "26.5.5"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-26.5.5.tgz#e40481b6ee4dd162626ba481a2be05fa57160ea5"
   dependencies:
     bs-logger "0.x"
     buffer-from "1.x"

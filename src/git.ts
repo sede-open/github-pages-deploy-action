@@ -70,6 +70,12 @@ export async function init(action: ActionInterface): Promise<void | Error> {
   }
 }
 
+export async function cleanup(action: ActionInterface): Promise<void> {
+  await execute(`git prune`, action.workspace, action.silent)
+
+  info(`Cleanup…`)
+}
+
 /* Runs the necessary steps to make the deployment. */
 export async function deploy(action: ActionInterface): Promise<Status> {
   const temporaryDeploymentDirectory =
