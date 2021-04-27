@@ -210,7 +210,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Removing ${action.branch}`)
 
     await execute(
-      `git branch -D ${action.branch} --quiet`,
+      `git branch -D ${action.branch} --force`,
       action.workspace,
       action.silent
     )
@@ -218,7 +218,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Removing ${temporaryDeploymentBranch}`)
 
     await execute(
-      `git branch -D ${temporaryDeploymentBranch} --quiet`,
+      `git branch -D ${temporaryDeploymentBranch} --force`,
       action.workspace,
       action.silent
     )
