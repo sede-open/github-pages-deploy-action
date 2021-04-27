@@ -71,7 +71,7 @@ export async function init(action: ActionInterface): Promise<void | Error> {
 }
 
 export async function cleanup(action: ActionInterface): Promise<void> {
-  await execute(`git prune`, action.workspace, action.silent)
+  await execute(`git branch -D ${action.branch}`, action.workspace, action.silent)
 
   info(`Cleanup…`)
 }
