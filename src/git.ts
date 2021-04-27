@@ -151,7 +151,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       branchExists && action.singleCommit
         ? `git diff origin/${action.branch}`
         : `git status --porcelain`
-  
+
     info(`Checking if there are files to commit…`)
 
     const hasFilesToCommit =
@@ -162,7 +162,10 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         true // This output is always silenced due to the large output it creates.
       ))
 
-    if (!hasFilesToCommit && !action.targetFolder) {
+    if (
+      (!action.singleCommit && !hasFilesToCommit) ||
+      (action.singleCommit && !action.targetFolder && !hasFilesToCommit)
+    ) {
       return Status.SKIPPED
     }
 
@@ -191,7 +194,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     }
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
-
 
     return Status.SUCCESS
   } catch (error) {
