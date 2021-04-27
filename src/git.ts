@@ -193,7 +193,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Tidying up`)
 
     await execute(
-      `git branch -D ${action.branch} ${action.singleCommit ? '--orphan' : ''}`,
+      `git branch -D ${action.branch}`,
       action.workspace,
       action.silent
     )
