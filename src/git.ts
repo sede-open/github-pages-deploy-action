@@ -160,7 +160,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         true // This output is always silenced due to the large output it creates.
       ))
 
-    if (!hasFilesToCommit) {
+    if (!hasFilesToCommit && !action.singleCommit && !action.targetFolder) {
       return Status.SKIPPED
     }
 
