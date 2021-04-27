@@ -190,6 +190,14 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
+    info(`Tidying up`)
+
+    await execute(
+      `git branch -D ${action.branch}`,
+      action.workspace,
+      action.silent
+    )
+
     return Status.SUCCESS
   } catch (error) {
     throw new Error(
