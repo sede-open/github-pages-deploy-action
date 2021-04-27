@@ -190,23 +190,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
-    info(`Resetting the branch???`)
-
-    if (!action.singleCommit) {
-      await execute(
-        `git checkout -b ${process.env.GITHUB_SHA}`,
-        action.workspace,
-        action.silent
-      )
-  
-      // TODO: Move this... ???
-      await execute(
-        `git branch -D ${action.branch} --force`,
-        action.workspace,
-        action.silent
-      )
-  
-    }
 
     return Status.SUCCESS
   } catch (error) {
@@ -219,6 +202,16 @@ export async function deploy(action: ActionInterface): Promise<Status> {
   } finally {
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs… 🗑️')
+
+    if (!action.singleCommit) {
+      info(`Removing branch artifacts…`)
+      await execute(
+        `git branch -D ${action.branch} --force`,
+        action.workspace,
+        action.silent
+      )
+    }
+
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
       action.workspace,
