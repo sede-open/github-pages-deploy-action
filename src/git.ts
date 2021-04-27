@@ -197,32 +197,12 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       action.silent
     )
 
-    // TODO: Move this...
-    if (action.singleCommit) {
-      info(`Removing ${temporaryDeploymentBranch}`)
-
-      await execute(
-        `git branch -D ${temporaryDeploymentBranch} --force`,
-        action.workspace,
-        action.silent
-      )
-    } else {
-      info(`Removing ${action.branch}`)
-
-      await execute(
-        `git branch -D ${action.branch} --force`,
-        action.workspace,
-        action.silent
-      )
-
-      info(`Removing ${temporaryDeploymentBranch}`)
-
-      await execute(
-        `git branch -D ${temporaryDeploymentBranch} --force`,
-        action.workspace,
-        action.silent
-      )
-    }
+    // TODO: Move this... ???
+    await execute(
+      `git branch -D ${action.branch} --force`,
+      action.workspace,
+      action.silent
+    )
 
     return Status.SUCCESS
   } catch (error) {
