@@ -207,8 +207,15 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     // Cleans up temporary files/folders and restores the git state.
     info('Running post deployment cleanup jobs… 🗑️')
 
+
     if (!action.singleCommit) {
-      info(`Removing branch artifacts…`)
+      info(`Resetting branch and removing branch artifacts…`)
+      await execute(
+        `git checkout -b ${temporaryDeploymentBranch}`,
+        `${action.workspace}/${temporaryDeploymentDirectory}`,
+        action.silent
+      )
+
       await execute(
         `git branch -D ${action.branch} --force`,
         action.workspace,
