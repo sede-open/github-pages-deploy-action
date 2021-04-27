@@ -190,6 +190,13 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
+    info(`Resetting the branch???`)
+    await execute(
+      `git checkout -b ${process.env.GITHUB_SHA}`,
+      action.workspace,
+      action.silent
+    )
+
     // TODO: Move this...
     if (action.singleCommit) {
       info(`Removing ${temporaryDeploymentBranch}`)
