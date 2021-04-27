@@ -190,6 +190,33 @@ export async function deploy(action: ActionInterface): Promise<Status> {
 
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
+    // TODO: Move this...
+    if (action.singleCommit) {
+      info(`Removing ${temporaryDeploymentBranch}`)
+
+      await execute(
+        `git branch -D ${temporaryDeploymentBranch} --force`,
+        action.workspace,
+        action.silent
+      )
+    } else {
+      info(`Removing ${action.branch}`)
+
+      await execute(
+        `git branch -D ${action.branch} --force`,
+        action.workspace,
+        action.silent
+      )
+
+      info(`Removing ${temporaryDeploymentBranch}`)
+
+      await execute(
+        `git branch -D ${temporaryDeploymentBranch} --force`,
+        action.workspace,
+        action.silent
+      )
+    }
+
     return Status.SUCCESS
   } catch (error) {
     throw new Error(
@@ -203,22 +230,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info('Running post deployment cleanup jobs… 🗑️')
     await execute(
       `git worktree remove ${temporaryDeploymentDirectory} --force`,
-      action.workspace,
-      action.silent
-    )
-
-    info(`Removing ${action.branch}`)
-
-    await execute(
-      `git branch -D ${action.branch} --force`,
-      action.workspace,
-      action.silent
-    )
-
-    info(`Removing ${temporaryDeploymentBranch}`)
-
-    await execute(
-      `git branch -D ${temporaryDeploymentBranch} --force`,
       action.workspace,
       action.silent
     )
