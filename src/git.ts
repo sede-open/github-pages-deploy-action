@@ -211,7 +211,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     if (!action.singleCommit) {
       info(`Resetting branch and removing branch artifacts…`)
       await execute(
-        `git checkout -b ${temporaryDeploymentBranch}`,
+        `git checkout -B ${temporaryDeploymentBranch}`,
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
