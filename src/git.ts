@@ -191,18 +191,22 @@ export async function deploy(action: ActionInterface): Promise<Status> {
     info(`Changes committed to the ${action.branch} branch… 📦`)
 
     info(`Resetting the branch???`)
-    await execute(
-      `git checkout -b ${process.env.GITHUB_SHA}`,
-      action.workspace,
-      action.silent
-    )
 
-    // TODO: Move this... ???
-    await execute(
-      `git branch -D ${action.branch} --force`,
-      action.workspace,
-      action.silent
-    )
+    if (!action.singleCommit) {
+      await execute(
+        `git checkout -b ${process.env.GITHUB_SHA}`,
+        action.workspace,
+        action.silent
+      )
+  
+      // TODO: Move this... ???
+      await execute(
+        `git branch -D ${action.branch} --force`,
+        action.workspace,
+        action.silent
+      )
+  
+    }
 
     return Status.SUCCESS
   } catch (error) {
