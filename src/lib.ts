@@ -35,6 +35,8 @@ export default async function run(
       ...configuration
     }
 
+    console.log('THE DIRECTORY', process.env.GITHUB_WORKSPACE)
+
     // Defines the repository/folder paths and token types.
     // Also verifies that the action has all of the required parameters.
     settings.folderPath = generateFolderPath(settings)
@@ -44,7 +46,6 @@ export default async function run(
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
 
-    console.log(process.env.GITHUB_WORKSPACE)
 
     if (settings.sshKey) {
       await configureSSH(settings)
