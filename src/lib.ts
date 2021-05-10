@@ -44,6 +44,8 @@ export default async function run(
     settings.repositoryPath = generateRepositoryPath(settings)
     settings.tokenType = generateTokenType(settings)
 
+    console.log(process.env.GITHUB_WORKSPACE)
+
     if (settings.sshKey) {
       await configureSSH(settings)
     }
