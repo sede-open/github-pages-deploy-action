@@ -215,12 +215,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         `${action.workspace}/${temporaryDeploymentDirectory}`,
         action.silent
       )
-
-      await execute(
-        `git branch -D ${action.branch} --force`,
-        action.workspace,
-        action.silent
-      )
     }
 
     await execute(
