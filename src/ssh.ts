@@ -35,7 +35,7 @@ export async function configureSSH(action: ActionInterface): Promise<void> {
       })
 
       // Adds the SSH key to the agent.
-      action.sshKey.split(/(?=-----BEGIN)/).map(async line => {
+      action.sshKey.split(/(?=-----BEGIN)/).forEach(async line => {
         execSync('ssh-add -', {input: `${line.trim()}\n`})
       })
 
